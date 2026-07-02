@@ -1,11 +1,11 @@
 # Publish to npm
 
-Package: **`@raviraj/atlassian-mcp`**
+Package: **`@raviraj87/atlassian-mcp`**
 
 ```bash
-npm whoami    # must show: raviraj
+npm whoami    # must show: raviraj87
 cd atlassian-mcp
 npm publish --access public
 ```
 
-After publish: https://www.npmjs.com/package/@raviraj/atlassian-mcp
+After publish: https://www.npmjs.com/package/@raviraj87/atlassian-mcp

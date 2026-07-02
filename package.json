@@ -1,5 +1,5 @@
 {
-  "name": "@raviraj/atlassian-mcp",
+  "name": "@raviraj87/atlassian-mcp",
   "version": "0.1.0",
   "description": "Local MCP server for Jira + Bitbucket (Server/DC + Cloud)",
   "license": "MIT",

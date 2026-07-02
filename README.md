@@ -4,7 +4,7 @@ Local MCP server for **Jira** and **Bitbucket**. Gives Cursor (or any MCP client
 
 - Runs on **your machine** (not cloud-hosted)
 - Uses **REST API + personal tokens** — **no Atlassian Connect app**
-- **npm:** `@raviraj/atlassian-mcp` — https://www.npmjs.com/package/@raviraj/atlassian-mcp
+- **npm:** `@raviraj87/atlassian-mcp` — https://www.npmjs.com/package/@raviraj87/atlassian-mcp
 - **GitHub:** https://github.com/ravi-netapp/atlassian-mcp
 
 ---
@@ -18,7 +18,7 @@ Edit `~/.cursor/mcp.json`:
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": ["-y", "@raviraj/atlassian-mcp"],
+      "args": ["-y", "@raviraj87/atlassian-mcp"],
       "env": {
         "JIRA_PAT": "your-jira-token",
         "BITBUCKET_USERNAME": "your-user",
@@ -50,7 +50,7 @@ Every user/machine needs **their own** values. Do not copy paths or tokens from 
 
 | What | Where | npm install | From source |
 |------|--------|-------------|-------------|
-| Server command | `mcp.json` | `npx` + `@raviraj/atlassian-mcp` | `node` + path to `dist/index.js` |
+| Server command | `mcp.json` | `npx` + `@raviraj87/atlassian-mcp` | `node` + path to `dist/index.js` |
 | API tokens | `mcp.json` → `env` | Your `JIRA_PAT`, `BITBUCKET_TOKEN`, etc. | Same |
 | Jira/Bitbucket URLs | YAML or `env` | Your company URLs | Same |
 | YAML config | Optional | Default `~/.atlassian-mcp.yaml` | Same |
@@ -107,7 +107,7 @@ cp config.example.yaml ~/.atlassian-mcp.yaml
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": ["-y", "@raviraj/atlassian-mcp"],
+      "args": ["-y", "@raviraj87/atlassian-mcp"],
       "env": {
         "JIRA_PAT": "your-jira-token",
         "BITBUCKET_USERNAME": "your-user",
@@ -144,7 +144,7 @@ Put everything in `mcp.json` `env`:
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": ["-y", "@raviraj/atlassian-mcp"],
+      "args": ["-y", "@raviraj87/atlassian-mcp"],
       "env": {
         "JIRA_BASE_URL": "https://jira.example.com",
         "JIRA_PAT": "your-token",
@@ -186,7 +186,7 @@ Put everything in `mcp.json` `env`:
 ## Cursor setup
 
 1. Edit `~/.cursor/mcp.json`.
-2. Use **npm** (`npx` + `@raviraj/atlassian-mcp`) or **Setup A / B** above.
+2. Use **npm** (`npx` + `@raviraj87/atlassian-mcp`) or **Setup A / B** above.
 3. Restart Cursor. Check **Settings → MCP**.
 
 **From source only:** `"command": "node"`, `"args": ["<<YOUR_CLONE_PATH>>/atlassian-mcp/dist/index.js"]`
