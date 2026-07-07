@@ -6,11 +6,11 @@
   "author": "Ravi Raj",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ravi-netapp/atlassian-mcp.git"
+    "url": "git+https://github.com/raviraj-ntp/atlassian-mcp.git"
   },
-  "homepage": "https://github.com/ravi-netapp/atlassian-mcp#readme",
+  "homepage": "https://github.com/raviraj-ntp/atlassian-mcp#readme",
   "bugs": {
-    "url": "https://github.com/ravi-netapp/atlassian-mcp/issues"
+    "url": "https://github.com/raviraj-ntp/atlassian-mcp/issues"
   },
   "publishConfig": {
     "access": "public"

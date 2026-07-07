@@ -5,7 +5,7 @@ Local MCP server for **Jira** and **Bitbucket**. Gives Cursor (or any MCP client
 - Runs on **your machine** (not cloud-hosted)
 - Uses **REST API + personal tokens** — **no Atlassian Connect app**
 - **npm:** `@raviraj87/atlassian-mcp` — https://www.npmjs.com/package/@raviraj87/atlassian-mcp
-- **GitHub:** https://github.com/ravi-netapp/atlassian-mcp
+- **GitHub:** https://github.com/raviraj-ntp/atlassian-mcp
 
 ---
 
@@ -34,7 +34,7 @@ Add Jira/Bitbucket URLs via [Setup B](#setup-b--env-only-no-yaml) or `~/.atlassi
 ## Install from source (optional)
 
 ```bash
-git clone https://github.com/ravi-netapp/atlassian-mcp.git
+git clone https://github.com/raviraj-ntp/atlassian-mcp.git
 cd atlassian-mcp
 npm install
 npm run build
