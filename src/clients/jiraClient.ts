@@ -584,6 +584,22 @@ export class JiraClient extends BaseClient {
     return this.raw("field");
   }
 
+  createFilter(name: string, jql: string, description?: string, dryRun?: boolean) {
+    return this.raw("filter", {
+      method: "POST",
+      body: { name, jql, description: description ?? "", favourite: false },
+      dryRun,
+    });
+  }
+
+  getFilter(filterId: number | string) {
+    return this.raw(`filter/${filterId}`);
+  }
+
+  deleteFilter(filterId: number | string, dryRun?: boolean) {
+    return this.raw(`filter/${filterId}`, { method: "DELETE", dryRun });
+  }
+
   whoAmI() {
     return this.raw("myself");
   }

@@ -11,6 +11,7 @@ import { basicAuth, bearerAuth } from "./baseClient.js";
 import { BitbucketClient } from "./bitbucketClient.js";
 import { ConfluenceClient } from "./confluenceClient.js";
 import { JiraClient } from "./jiraClient.js";
+import { RichFiltersClient } from "./richFiltersClient.js";
 
 export type ConnectionClients = {
   name: string;
@@ -88,6 +89,10 @@ export class ClientFactory {
     const jira = this.get(connection).jira;
     if (!jira) throw new Error("Jira is not configured for this connection");
     return jira;
+  }
+
+  richFilters(connection?: string): RichFiltersClient {
+    return new RichFiltersClient(this.requireJira(connection));
   }
 
   requireBitbucket(connection?: string): BitbucketClient {

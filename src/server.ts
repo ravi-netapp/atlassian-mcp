@@ -15,14 +15,16 @@ import { registerConfluenceExtendedTools } from "./tools/confluenceExtendedTools
 import { registerCrossProductTools } from "./tools/crossproductTools.js";
 import { registerBitbucketExtendedTools, registerJiraExtendedTools } from "./tools/extendedTools.js";
 import { registerJiraTools } from "./tools/jiraTools.js";
+import { registerRichFiltersTools } from "./tools/richFiltersTools.js";
 
 export function createAtlassianMcpServer(factory: ClientFactory): McpServer {
   const server = new McpServer({
     name: "atlassian-mcp",
-    version: "1.3.0",
+    version: "1.4.0",
   });
 
   registerJiraTools(server, factory);
+  registerRichFiltersTools(server, factory);
   registerJiraExtendedTools(server, factory);
   registerBitbucketTools(server, factory);
   registerBitbucketExtendedTools(server, factory);

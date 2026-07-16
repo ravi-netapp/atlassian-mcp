@@ -11,6 +11,16 @@ import { ClientFactory } from "../clients/clientFactory.js";
 import { jiraBulkUpdateFromJqlOptionsSchema } from "../util/jiraBulk.js";
 import { connectionField, dryRunField, jsonResult, registerTool } from "./common.js";
 
+const staticFilterInput = z.object({
+  label: z.string(),
+  jql: z.string(),
+  color: z.string().optional(),
+});
+
+const dynamicFilterInput = z.object({
+  key: z.string(),
+});
+
 export function registerCompositeTools(server: McpServer, factory: ClientFactory): void {
   registerTool(
     server,
@@ -133,6 +143,82 @@ export function registerCompositeTools(server: McpServer, factory: ClientFactory
       }
 
       return jsonResult({ jiraIssues: issues, openPullRequests: pullRequests });
+    },
+  );
+
+  registerTool(
+    server,
+    "rich_filter_bootstrap",
+    "Composite: create Jira saved filter + Rich Filter, then add static/dynamic filter presets.",
+    {
+      connection: connectionField,
+      name: z.string().describe("Name for both the Jira filter and Rich Filter"),
+      jql: z.string().describe("Base JQL for the Jira saved filter"),
+      description: z.string().optional(),
+      jiraFilterId: z
+        .number()
+        .optional()
+        .describe("Use an existing Jira filter instead of creating one"),
+      staticFilters: z.array(staticFilterInput).optional(),
+      dynamicFilters: z.array(dynamicFilterInput).optional(),
+      dryRun: dryRunField,
+    },
+    async ({ connection, name, jql, description, jiraFilterId, staticFilters, dynamicFilters, dryRun }) => {
+      const jira = factory.requireJira(connection);
+      const rf = factory.richFilters(connection);
+
+      const search = (await rf.search({ filterName: name, maxResults: 20 })) as {
+        results?: Array<{ id: number; name: string; jiraFilter?: { value?: { id?: number } } }>;
+      };
+      const existingRf = search.results?.find((r) => r.name === name);
+
+      let resolvedJiraFilterId = jiraFilterId ?? existingRf?.jiraFilter?.value?.id;
+
+      if (!resolvedJiraFilterId) {
+        const created = (await jira.createFilter(name, jql, description, dryRun)) as {
+          id?: string;
+          dryRun?: boolean;
+        };
+        if (created.dryRun) {
+          return jsonResult({
+            dryRun: true,
+            name,
+            jql,
+            staticFilters: staticFilters ?? [],
+            dynamicFilters: dynamicFilters ?? [],
+          });
+        }
+        resolvedJiraFilterId = Number(created.id);
+      }
+
+      let richFilterId = existingRf?.id;
+      if (!richFilterId) {
+        const created = (await rf.create(name, resolvedJiraFilterId, dryRun)) as { id?: number; dryRun?: boolean };
+        if (created.dryRun) {
+          return jsonResult({ dryRun: true, jiraFilterId: resolvedJiraFilterId, name });
+        }
+        richFilterId = created.id;
+      }
+
+      if (!richFilterId) throw new Error("Rich Filter creation did not return an id");
+
+      const configured = await rf.configure(richFilterId, {
+        staticFilters,
+        dynamicFilters,
+        description,
+        dryRun,
+      });
+
+      const issueCount = dryRun ? null : await rf.issueCount(richFilterId);
+
+      return jsonResult({
+        status: existingRf ? "updated" : "created",
+        jiraFilterId: resolvedJiraFilterId,
+        richFilterId,
+        name,
+        configured,
+        issueCount,
+      });
     },
   );
 
